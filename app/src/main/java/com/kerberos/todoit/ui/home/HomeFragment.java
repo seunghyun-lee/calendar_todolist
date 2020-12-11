@@ -1,5 +1,6 @@
 package com.kerberos.todoit.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.kerberos.todoit.R;
 import com.kerberos.todoit.ui.adapter.CalendarAdapter;
+import com.kerberos.todoit.utils.DBHelper;
 import com.kerberos.todoit.utils.DateUtil;
 import com.kerberos.todoit.utils.Keys;
 
@@ -39,22 +42,18 @@ public class HomeFragment extends Fragment {
     private CalendarAdapter mAdapter;
     private StaggeredGridLayoutManager manager;
 
+    private DBHelper dbHelper;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+//        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Context context = inflater.getContext();
+        dbHelper = new DBHelper(context);
         initView(rootView);
-        initSet();
+        initSet(rootView);
         setRecycler();
 
         return rootView;
@@ -65,18 +64,18 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView)v.findViewById(R.id.calendar);
     }
 
-    public void initSet() {
-        initCalendarList();
+    public void initSet(View v) {
+        initCalendarList(v);
     }
 
-    public void initCalendarList() {
+    public void initCalendarList(View v) {
         GregorianCalendar cal = new GregorianCalendar();
-        setCalendarList(cal);
+        setCalendarList(v, cal);
     }
 
-    public void setTitle(long time) {
-//        textView = (TextView)v.findViewById(R.id.title);
-//        textView.setText(DateUtil.getDate(time, DateUtil.CALENDAR_HEADER_FORMAT));
+    public void setTitle(View v, long time) {
+        textView = (TextView)v.findViewById(R.id.title);
+        textView.setText(DateUtil.getDate(time, DateUtil.CALENDAR_HEADER_FORMAT));
     }
 
     private void setRecycler() {
@@ -98,8 +97,8 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void setCalendarList(GregorianCalendar cal) {
-        setTitle(cal.getTimeInMillis());
+    public void setCalendarList(View v, GregorianCalendar cal) {
+        setTitle(v, cal.getTimeInMillis());
         ArrayList<Object> calendarList = new ArrayList<>();
 
         for (int i = -300 ; i < 300 ; i++) {
@@ -117,7 +116,7 @@ public class HomeFragment extends Fragment {
                 for (int j = 0 ; j < dayOfWeek ; j++) {
                     calendarList.add(Keys.EMPTY);
                 }
-                for (int j = 0 ; j <= max ; j++) {
+                for (int j = 1 ; j <= max ; j++) {
                     calendarList.add(new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), j));
                 }
             } catch (Exception e) {

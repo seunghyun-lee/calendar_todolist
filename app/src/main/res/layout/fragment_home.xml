@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-<!--    tools:context=".ui.home.HomeFragment"-->
+    android:orientation="vertical"
+    tools:context=".ui.home.HomeFragment">
 
 
     <!--헤더-->
@@ -38,6 +38,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="일"
+            android:textColor="@color/colorAccent"
             android:textSize="9sp" />
 
         <TextView
@@ -90,7 +91,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-
+            android:textColor="@color/colorAccent"
             android:text="토"
             android:textSize="9sp" />
     </LinearLayout>
