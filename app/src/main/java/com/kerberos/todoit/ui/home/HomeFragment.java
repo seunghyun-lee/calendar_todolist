@@ -1,6 +1,7 @@
 package com.kerberos.todoit.ui.home;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,8 @@ public class HomeFragment extends Fragment {
 
         Context context = inflater.getContext();
         dbHelper = new DBHelper(context);
+
+
         initView(rootView);
         initSet(rootView);
         setRecycler();

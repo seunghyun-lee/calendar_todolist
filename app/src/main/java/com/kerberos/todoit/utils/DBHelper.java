@@ -12,7 +12,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "todoit.db";
     public static final String TABLE_NAME_TODOITEM = "TODOITEM";
 
-
     private static final String CREATE_TABLE_TODOITEM =
             "CREATE TABLE " + TABLE_NAME_TODOITEM +
                     "(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +

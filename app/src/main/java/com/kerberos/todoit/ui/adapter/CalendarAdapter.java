@@ -1,8 +1,10 @@
 package com.kerberos.todoit.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -125,6 +127,7 @@ public class CalendarAdapter extends RecyclerView.Adapter {
 
     private class DayViewHolder extends RecyclerView.ViewHolder {
         TextView itemDay;
+        RelativeLayout layoutDay;
 
         public DayViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -133,11 +136,21 @@ public class CalendarAdapter extends RecyclerView.Adapter {
 
         public void initView(View v) {
             itemDay = (TextView)v.findViewById(R.id.item_day);
+            layoutDay = (RelativeLayout)v.findViewById(R.id.item_layout_day);
         }
 
         public void bind(ViewModel model) {
             String day = ((Day)model).getDay();
             itemDay.setText(day);
+
+            String fullDay = ((Day)model).getFullDay();
+
+            layoutDay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("TAG", "TEST : " +  fullDay);
+                }
+            });
         }
     }
 
